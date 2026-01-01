@@ -11,5 +11,3 @@ listing:
   feed: true               # Optional: enables an RSS feed for your blog
 page-layout: full
 ---
-
-Use this space to share thoughts, data deep-dives, and technical tutorials.

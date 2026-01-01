@@ -1,0 +1,10 @@
+---
+title: "how expensive is housing?"
+description: "cost of housing in the US over time"
+categories: [economics, data science]
+format: html
+date: last-modified
+date-format: long
+---
+
+TODO

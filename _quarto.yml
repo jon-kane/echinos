@@ -1,5 +1,7 @@
 project:
   type: website
+execute:
+    freeze: auto  # This ensures code is only re-run when its specific .qmd file changes
 
 website:
   navbar:
