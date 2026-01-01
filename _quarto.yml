@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  navbar:
+    left:
+      - href: index.qmd
+        text: home
+      - href: musings.qmd
+        text: musings
+
+format:
+  html:
+    theme: cyborg
+    page-layout: full
+    toc: true
+    code-fold: true
+    date-format: long
+    css: styles.css
+

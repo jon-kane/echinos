@@ -1,0 +1,15 @@
+---
+title: "musings"
+listing:
+  contents: posts          # This folder will contain your individual .qmd posts
+  sort: "date desc"        # Newest posts at the top
+  type: default            # Standard list view
+  categories: true         # Enables tag-based filtering (like your 'tags' array)
+  sort-ui: false
+  filter-ui: true          # Replaces your custom JavaScript search bar
+  fields: [date, title, reading-time, description, categories]
+  feed: true               # Optional: enables an RSS feed for your blog
+page-layout: full
+---
+
+Use this space to share thoughts, data deep-dives, and technical tutorials.
