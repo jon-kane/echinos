@@ -1,0 +1,55 @@
+/* css styles */
+
+/* Custom styles to match your blog.html design */
+
+.quarto-post {
+    background-color: #1a1a1a !important; /* Slightly lighter than body background */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #ffa500 !important; /* Your signature orange accent */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.quarto-post:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.listing-title {
+    color: #ffa500 !important;
+    font-size: 1.6em !important;
+    text-decoration: none;
+}
+
+.listing-description {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.metadata {
+    color: #aaa;
+}
+
+.text-block {
+  background: rgba(0, 0, 0, 0);
+  color: white;
+  padding: 2rem;
+  /* 3. Ensure margin-top is explicitly 0 */
+  margin: 0 auto 20vh auto; 
+  border-radius: 12px;
+  max-width: 700px;
+  line-height: 1.6;
+  box-shadow: 0 10px 30px rgba(0,0,0,0);
+}
+
+.text-block a {
+  color: #ffa500; /* Matching your Collatz animation start color */
+  text-decoration: none;
+  border-bottom: 1px solid #ffa500;
+  transition: opacity 0.3s;
+}
+
+.text-block a:hover {
+  opacity: 0.8;
+}
