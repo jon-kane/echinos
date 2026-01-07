@@ -5,7 +5,7 @@ execute:
     echo: false
 
 website:
-  site-url: "https://jon-kane.github.io/justan3ngin33r/"
+  site-url: "https://jon-kane.github.io/justan3ngin33r"
   favicon: "images/logo_gray.png"
   navbar:
     left:
@@ -19,6 +19,7 @@ format:
     theme: cyborg
     page-layout: full
     toc: true
+    toc-title: "on this page"
     code-fold: true
     date-format: long
     css: styles.css
