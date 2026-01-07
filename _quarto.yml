@@ -2,14 +2,16 @@ project:
   type: website
 execute:
     freeze: auto  # this ensures code is only re-run when its specific .qmd file changes
+    echo: false
 
 website:
+  site-url: "https://jon-kane.github.io/justan3ngin33r/"
   navbar:
     left:
       - href: index.qmd
         text: home
-      - href: musings.qmd
-        text: musings
+      - href: writings.qmd
+        text: writings
 
 format:
   html:
@@ -19,4 +21,6 @@ format:
     code-fold: true
     date-format: long
     css: styles.css
+    reference-location: margin
+    citation-location: margin
 

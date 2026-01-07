@@ -53,3 +53,21 @@
 .text-block a:hover {
   opacity: 0.8;
 }
+
+/* Global hyperlink styling */
+a {
+  color: #ffa500; /* Your signature orange */
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+  border-bottom: 1px solid #ffa500;
+}
+
+/* Ensure navbar links remain readable if needed */
+.navbar a {
+  border-bottom: none;
+}

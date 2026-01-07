@@ -1,5 +1,5 @@
 ---
-title: "musings"
+title: "writings"
 listing:
   contents: posts          # This folder will contain your individual .qmd posts
   sort: "date desc"        # Newest posts at the top
