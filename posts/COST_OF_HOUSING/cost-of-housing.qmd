@@ -145,8 +145,8 @@ di_data = getStuff("dti_ratio", tb_final01)
 
 At a national scale,
 
-- From `r format(min(hp_data$tb$date), '%B %Y')` to `r format(max(hp_data$tb$date), '%B %Y')`, the adjusted median home price (`r cpi_baseline_year` dollars) has **increased by `r scales::dollar(coef(hp_data$mod)[2]*365, 2)`  per year on average**. As of `r format(max(hp_data$tb$date), '%B %Y')`, the adjusted median home price stands at `r scales::dollar(last(hp_data$tb$home_real), 2)`, placing it in the **`r scales::ordinal(hp_data$tp * 100)` percentile of all observations** in this period.
-- From `r format(min(hi_data$tb$date), '%B %Y')` to `r format(max(hi_data$tb$date), '%B %Y')`, the adjusted median household income (`r cpi_baseline_year` dollars) has **increased by `r scales::dollar(coef(hi_data$mod)[2]*365, 2)`  per year on average**. As of `r format(max(hp_data$tb$date), '%B %Y')`, the adjusted median household income stands at `r scales::dollar(last(hi_data$tb$home_real), 2)`, placing it in the **`r scales::ordinal(hi_data$tp * 100)` percentile of all observations** in this period.
+- From `r format(min(hp_data$tb$date), '%B %Y')` to `r format(max(hp_data$tb$date), '%B %Y')`^[Some of the most recent observations are forecasts. See @tbl-observation-dates for details.], the real median home price (`r cpi_baseline_year` dollars) has **increased by `r scales::dollar(coef(hp_data$mod)[2]*365, 2)`  per year on average**. As of `r format(max(hp_data$tb$date), '%B %Y')`, the real median home price stands at `r scales::dollar(last(hp_data$tb$home_real), 2)`, placing it in the **`r scales::ordinal(hp_data$tp * 100)` percentile of all observations** in this period.
+- From `r format(min(hi_data$tb$date), '%B %Y')` to `r format(max(hi_data$tb$date), '%B %Y')`, the real median household income (`r cpi_baseline_year` dollars) has **increased by `r scales::dollar(coef(hi_data$mod)[2]*365, 2)`  per year on average**. As of `r format(max(hp_data$tb$date), '%B %Y')`, the real median household income stands at `r scales::dollar(last(hi_data$tb$income_real), 2)`, placing it in the **`r scales::ordinal(hi_data$tp * 100)` percentile of all observations** in this period.
 - From `r format(min(pi_data$tb$date), '%B %Y')` to `r format(max(pi_data$tb$date), '%B %Y')`, the price-to-income ratio of a home has **increased by `r round(coef(pi_data$mod)[2]*365*100, 2)` percentage points (pp) per year on average**. As of `r format(max(pi_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(pi_data$tb$pi_ratio), 2)`^[Meaning the typical house costs the typical household `r round(last(pi_data$tb$pi_ratio), 2)` $\times$ their gross annual income], placing it in the **`r scales::ordinal(pi_data$tp * 100)` percentile of all observations** in this period.
 - From `r format(min(di_data$tb$date), '%B %Y')` to `r format(max(di_data$tb$date), '%B %Y')`, the mortgage debt-to-income ratio has **decreased by `r round(coef(di_data$mod)[2]*365*100, 2)` pp per year on average**. As of `r format(max(di_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(di_data$tb$dti_ratio), 2)`^[Meaning the typical household would spend `r round(last(di_data$tb$dti_ratio), 2)` $\times$ their monthly income on the typical mortgage. This calculation assumes only interest and principal.], placing it in the **`r scales::ordinal(di_data$tp * 100)` percentile of all observations** in this period.
 
@@ -486,13 +486,13 @@ girafe(
 
 These smoothed indicators are used to calculate the metrics in the following sections.
 
-### adjusted median home price
+### real median home price
 
 Let's put the nominal median home price in `r cpi_baseline_year` dollars. I'll include a linear model to help us understand the trend over time.
 
 ```{r}
-#| label: fig-adjusted-home-price
-#| fig-cap: !expr paste0("Adjusted median home prices (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval.")
+#| label: fig-real-home-price
+#| fig-cap: !expr paste0("Real median home prices (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval.")
 #| column: body
 #| out-width: "100%"
 
@@ -623,18 +623,18 @@ createForecastPlot(
   y_l_col = "home_real_l",
   y_u_col = "home_real_u",
   y_sd_col = "home_real_sd",
-  title_text = "adjusted median home price",
+  title_text = "real median home price",
   y_label_fn = scales::label_dollar(scale = 1e-3, suffix = "k")
 )
 ```
 
-### adjusted household income
+### real household income
 
 Let's put the nominal median household income in `r cpi_baseline_year` dollars. I'll include a linear model to help us understand the trend over time.
 
 ```{r}
-#| label: fig-adjusted-household-income
-#| fig-cap: !expr paste0("Adjusted median household income (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval.")
+#| label: fig-real-household-income
+#| fig-cap: !expr paste0("real median household income (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval.")
 #| column: body
 #| out-width: "100%"
 
@@ -645,7 +645,7 @@ createForecastPlot(
   y_l_col = "income_real_l",
   y_u_col = "income_real_u",
   y_sd_col = "income_real_sd",
-  title_text = "adjusted median household income",
+  title_text = "real median household income",
   y_label_fn = scales::label_dollar(scale = 1e-3, suffix = "k")
 )
 ```
