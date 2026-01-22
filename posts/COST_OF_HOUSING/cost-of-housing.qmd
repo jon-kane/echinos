@@ -159,7 +159,7 @@ In order to provide some clarity on the question of housing affordability, I'm g
 3. The real^[`r cpi_baseline_year` dollars] median home price over time.
 4. The real median household income over time.
 
-(1) and (2) are the most important metrics and incorporate (3) and (4). However, (3) and (4) can help provide some context to better understand (1) and (2).
+The first two metrics are the most important and incorporate the bottom two. However, the bottom two can give us better context in and of themselves. 
 
 # analysis
 
@@ -637,14 +637,14 @@ createForecastPlot(
 
 From `r format(min(hp_data$tb$date), '%B %Y')` to `r format(max(hp_data$tb$date), '%B %Y')`, the real median home price has **increased by `r scales::dollar(coef(hp_data$mod)[2]*365, 2)`  per year on average**. This translates to roughly `r round((coef(hp_data$mod)[2]*365/hp_data$tb$home_real[1])*100, 2)` pp per year. As of `r format(max(hp_data$tb$date), '%B %Y')`, the real median home price stands at `r scales::dollar(last(hp_data$tb$home_real), 2)`, placing it in the **`r scales::ordinal(hp_data$tp * 100)` percentile of all observations** in this period. 
 
-What complicates this analysis is that the *typical* house from 1950 looks much different than the *typical* house from today. Across the decades, houses look pretty different, whether that be square footage or amenities. Nano Banana^[[Nano Banana](https://gemini.google/overview/image-generation/) is an AI image generator from Google. I thought these images were pretty good, but if you want some real examples you could peruse the book [House and Plans, 1950](https://archive.org/details/YorkHouseandPlans19500001) and just look at new builds on [Zillow](https://www.zillow.com/homes/).] can give us a visual sense of these differences: 
+What complicates this analysis is that the *typical* house from the 1950s looks much different than the *typical* house from today. Across the decades, houses look pretty different, whether that be square footage or amenities. To get a visual sense of these differences: 
 
 ::: {#fig-housing-comparison layout-ncol=2}
-![](/posts/COST_OF_HOUSING/images/1950s-home.png)
+![The "rambler" (a ranch house) was the [most popular](https://www.nps.gov/articles/000/identifying-the-1950s-ranch-house-interior-as-a-cultural-resource.htm#:~:text=It%20was%20the%20ranch%20house,of%20these%20were%20ranch%20houses.) style of home for new builds in the 1950s. The home pictured has 3 beds, 1 bath, and is 1,234 square feet (excluding the 1-car garage). Images from [Town and Country Homes to Fit Your Budget, 1954](https://archive.org/details/towncountryhomes00home/page/n59/mode/2up) p. 60-61.](/posts/COST_OF_HOUSING/images/1950s-home.svg)
 
-![](/posts/COST_OF_HOUSING/images/2020s-home.png)
+![The modern farmhouse is considered one of the [most popular](https://www.inman.com/2023/07/07/times-names-modern-farmhouse-defining-residential-style-of-2020s/#:~:text=The%20modern%20farmhouse%2C%20with%20its,July%2007%2C%202023) styles of home for new builds in the 2020s. The home pictured has 3 beds, 2.5 baths, and is 1,959 square feet (excluding the 2-car garage). Images from [Architectural Designs](https://www.architecturaldesigns.com/house-plans/single-story-modern-farmhouse-plan-with-3-bedrooms-under-2000-sq-ft-69194am).](/posts/COST_OF_HOUSING/images/2020s-home.svg)
 
-Visual comparison of typical homes from the 1950's (left) and 2020's (right)
+Visual comparison of popular homes from the 1950s and 2020s.
 :::
 
 A few key figures on these differences:
@@ -657,16 +657,12 @@ A few key figures on these differences:
 
 : Comparison of housing features over time {#tbl-housing-features}
 
-[Andrew Latham](https://www.supermoney.com/author/andrew-latham) did a [great analysis on housing affordability](https://www.supermoney.com/inflation-adjusted-home-prices) where he found that the price per square foot of a house (ignoring amenities) from 1978-2023 grew by 20% which works out to roughly 0.44 pp per year which is about `r round(0.44/((coef(hp_data$mod)[2]*365/hp_data$tb$home_real[1])*100), 2)` the rate of house prices in general. 
+[Andrew Latham](https://www.supermoney.com/author/andrew-latham) did a [great analysis on housing affordability](https://www.supermoney.com/inflation-adjusted-home-prices) where he found that the price per square foot of a house (ignoring amenities) from 1978-2023 grew by 20% which works out to roughly 0.44 pp per year which is about `r scales::percent(0.44/((coef(hp_data$mod)[2]*365/hp_data$tb$home_real[1])*100), accuracy = 1)` the rate of house prices in general. 
 
-Of course the problem in all this, is you can't buy a 1950's house today^[Not that anyone would want to!]; the option for a smaller house just isn't available. Those aren't the houses being built^[The median square footage of new builds has been [decreasing over the last decade](https://fred.stlouisfed.org/series/COMPSFLAM1FQ). Hopefully this is a trend that will continue if there is an appetite for it.], so buyers are left with nicer, more expensive houses.
+Of course the problem in all this is you can't buy a 1950's new-build today^[Not that anyone would want to!]; the option for a smaller, less feature rich house just isn't available today as it was in the past. Those aren't the houses being built, so buyers are left with nicer, larger^[Ironically, [households have been shrinking](https://www.census.gov/content/dam/Census/library/visualizations/time-series/demo/families-and-households/hh-6.pdf) over the same time that houses have gotten larger. However, the median square footage of new builds has been [decreasing over the last decade](https://fred.stlouisfed.org/series/COMPSFLAM1FQ).], and more expensive houses.
 
 
 Fortunately, we are coming out of a bubble which peaked in early 2022, so prices are cheaper today than a few years ago. However, unless housing policy/supply changes, we should expect housing to get more expensive. 
-
- 
-
-
 
 #### real household income
 
@@ -692,6 +688,52 @@ createForecastPlot(
 ```
 
 From `r format(min(hi_data$tb$date), '%B %Y')` to `r format(max(hi_data$tb$date), '%B %Y')`, the real median household income has **increased by `r scales::dollar(coef(hi_data$mod)[2]*365, 2)`  per year on average**. As of `r format(max(hp_data$tb$date), '%B %Y')`, the real median household income stands at `r scales::dollar(last(hi_data$tb$income_real), 2)`, placing it in the **`r scales::ordinal(hi_data$tp * 100)` percentile of all observations** in this period.
+
+There are three periods worth focusing on in @fig-real-household-income: Mid 1948 - late 1964, late 1964 - early 2012, and early 2012 - today. Let's examine each of these in turn.
+
+```{r real-income-return-over-3-periods}
+p1_ri_1 = tb_final01 %>% 
+  filter(year(date) == 1948, month(date) == 6) %>% 
+  pull(income_real) %>% 
+  round()
+
+p1_ri_2 = tb_final01 %>% 
+  filter(year(date) == 1964, month(date) == 12) %>% 
+  pull(income_real) %>% 
+  round()
+
+p2_ri_2 = tb_final01 %>% 
+  filter(year(date) == 2012, month(date) == 1) %>% 
+  pull(income_real) %>% 
+  round()
+
+p2_ri_rng = tb_final01 %>% 
+  filter(date >= as.Date("1964-12-01"), date <= as.Date("2012-01-01")) %>% 
+  select(date, income_real) %>% 
+  arrange(desc(income_real)) %>% 
+  slice(1, n()) %>% 
+  mutate(income_real = round(income_real))
+
+p3_ri_2 = tb_final01 %>% 
+  pull(income_real) %>% 
+  last() %>% 
+  round()
+
+# helper function for date difference
+getDif = function(date_start, date_end) {
+  as.numeric(difftime(date_end, date_start, units = "days"))/365
+}
+```
+
+##### Mid 1948 - late 1964
+
+This period saw significant growth over a brief period of time. From June 1948 to December 1964, real median household income grew from `r dollar(p1_ri_1)` to `r dollar(p1_ri_2)` representing an annual growth of `r round((((p1_ri_2/p1_ri_1) - 1)/getDif(as.Date("1948-06-01"), as.Date("1964-12-01")) * 100), 2)` pp per year. 
+
+##### Late 1964 - early 2012
+
+From December 1964 to January 2012, the real median household income only grew to `r dollar(p2_ri_2)` representing an annual growth of `r round((((p2_ri_2/p1_ri_2) - 1)/getDif(as.Date("1964-12-01"), as.Date("2012-01-01")) * 100), 2)` pp per year. Of course there were highs and lows over this period^[The peak income over this period was reached on July 1999 at `r dollar(p2_ri_rng$income_real[1])` representing a growth of `r round((((p2_ri_rng$income_real[1]/p1_ri_2) - 1)/getDif(as.Date("1964-12-01"), as.Date("1999-07-01")) * 100), 2)` pp per year. The lowest income over this period was reached on June 1982 at `r dollar(p2_ri_rng$income_real[2])` representing a decline of `r round((((p2_ri_rng$income_real[2]/p1_ri_2) - 1)/getDif(as.Date("1964-12-01"), as.Date("1999-07-01")) * 100), 2)` pp per year.], but overall growth was stagnant^[This becomes nebulous quickly. [Analysis by the Urban Institute](https://www.urban.org/sites/default/files/publication/65351/2000331-Beyond-the-Wage-Stagnation-Story.pdf) (a left-leaning think tank) have found that when you include all payments (e.g. benefits from employer), from 1979 - 2013 real income grew by roughly 1.1 pp per year. Furthermore, when you break up the analysis by different demographics (age, gender, education, etc.) you see some groups had significant growth (60+, women, higher education) while others lagged behind (25-34, men, less than BA).]. 
+
+##### Early 2012 - today
 
 #### price-to-income ratio
 
