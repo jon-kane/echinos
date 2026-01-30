@@ -35,7 +35,7 @@ library(knitr)
 national_data = readRDS(here::here("posts/COST_OF_HOUSING/national-data.rds"))
 attach(national_data)
 
-cpi_baseline_year = 2026
+cpi_baseline_year = year(Sys.Date())
 
 cpi_baseline = tb_nm %>% 
   filter(symbol == "CPIAUCSL", year(date) == cpi_baseline_year, month(date) == 1) %>% 
@@ -294,7 +294,6 @@ girafe(
     opts_tooltip(
       css = "background-color: #070607; color: gray80; padding:8px; border:1px solid gray50;"
     ),
-    # Removed invalid 'css' argument here
     opts_toolbar(saveaspng = F) 
   )
 )
@@ -497,7 +496,7 @@ Let's put the nominal median home price in `r cpi_baseline_year` dollars. I'll i
 
 ```{r}
 #| label: fig-real-home-price
-#| fig-cap: !expr paste0("Real median home prices (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Hover over the lines to see the percentile of the observation and ranges for forecasts.")
+#| fig-cap: !expr paste0("Real median home prices (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Vertical gray bars indicate recessions. Hover over the lines to see the percentile of the observation and ranges for forecasts.")
 #| column: body
 #| out-width: "100%"
 
@@ -543,6 +542,13 @@ createForecastPlot = function(
   # 2. Build the ggplot object
   gg_interactive = plot_data %>% 
     ggplot(aes(x = date, y = .data[[y_col]])) + 
+     geom_rect(
+        data = tb_re %>% filter(xmin > min(plot_data$date)),
+        aes(xmin = xmin, xmax = xmax, ymin = -Inf, ymax = Inf),
+        fill = "grey50", 
+        alpha = 0.4,
+        inherit.aes = FALSE 
+      ) + 
     
     # --- Main Series ---
     geom_ribbon(
@@ -672,7 +678,7 @@ Let's put the nominal median household income in `r cpi_baseline_year` dollars. 
 
 ```{r}
 #| label: fig-real-household-income
-#| fig-cap: !expr paste0("real median household income (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Hover over the lines to see the percentile of the observation and ranges for forecasts.")
+#| fig-cap: !expr paste0("real median household income (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Vertical gray bars indicate recessions. Hover over the lines to see the percentile of the observation and ranges for forecasts.")
 #| column: body
 #| out-width: "100%"
 
@@ -751,7 +757,7 @@ This ratio tells us the sales price of a house as a multiple of the typical hous
 
 ```{r}
 #| label: fig-price-to-income-ratio
-#| fig-cap: "Ratio of median home price to median household income over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Hover over the lines to see the percentile of the observation and ranges for forecasts."
+#| fig-cap: "Ratio of median home price to median household income over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Vertical gray bars indicate recessions. Hover over the lines to see the percentile of the observation and ranges for forecasts."
 #| column: body
 #| out-width: "100%"
 
@@ -770,25 +776,38 @@ createForecastPlot(
 
 From `r format(min(pi_data$tb$date), '%B %Y')` to `r format(max(pi_data$tb$date), '%B %Y')`, the price-to-income ratio of a home has **`r ifelse(coef(pi_data$mod)[2] < 0, "decreased", "increased")` by `r round(abs(coef(pi_data$mod)[2]*365*100), 2)` pp per year on average**. As of `r format(max(pi_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(pi_data$tb$pi_ratio), 2)`, placing it in the **`r scales::ordinal(pi_data$tp * 100)` percentile of all observations** in this period.
 
-FOCUS ANALYSIS ON TWO PERIODS: 1953-1963 AND POST 1963. NEED TO INCLUDE RECESSION BARS IN ALL FIGURES.
 
 ```{r pi-ratio-over-two-periods}
 p1_pi_1 = tb_final01 %>% 
   select(date, pi_ratio) %>% 
   drop_na() %>% 
-  filter(year(date) < 1965) %>% 
+  filter(year(date) < 1964) %>% 
+  arrange(desc(pi_ratio)) %>% 
+  slice(1, n())
+
+p1_pi_2 = tb_final01 %>% 
+  select(date, pi_ratio) %>% 
+  drop_na() %>% 
+  filter(year(date) >= 1964) %>% 
   arrange(desc(pi_ratio)) %>% 
   slice(1, n())
 ```
 
-From 1953 to late 1963, the price-to-income ratio fell precipitously^[This is probably overstated a bit since due to quality of data from pre-1963. See @tbl-data-dictionary-national for details.], from a peak of `r round(p1_pi_1$pi_ratio[1], 2)` on `r format(p1_pi_1$date[1], '%B %Y')` to a trough of `r round(p1_pi_1$pi_ratio[2], 2)` on `r format(p1_pi_1$date[2], '%B %Y')` representing an **annual decline of `r abs(round((((p1_pi_1$pi_ratio[2]/p1_pi_1$pi_ratio[1]) - 1)/getDif(p1_pi_1$date[1], p1_pi_1$date[2]) * 100), 2))` pp per year**. The decline of price-to-income in this period was driven by strong growth in real household income and slight decline in the real median home price. 
+There are two periods worth focusing on in @fig-price-to-income-ratio: 1953 - late 1963 and post 1963. These periods are marked by an initial decline (`r abs(round((((p1_pi_1$pi_ratio[2]/p1_pi_1$pi_ratio[1]) - 1)/getDif(p1_pi_1$date[1], p1_pi_1$date[2]) * 100), 2))` pp/year), then steady growth (`r abs(round((((p1_pi_2$pi_ratio[2]/p1_pi_2$pi_ratio[1]) - 1)/getDif(p1_pi_2$date[1], p1_pi_2$date[2]) * 100), 2))` pp/year), respectively. Let's examine each of these periods in turn.
 
+##### 1953 - late 1963
+
+From 1953 to late 1963, the price-to-income ratio fell precipitously^[This is probably overstated a bit since due to quality of data from pre-1963. See @tbl-data-dictionary-national for details.], from a peak of `r round(p1_pi_1$pi_ratio[1], 2)` on `r format(p1_pi_1$date[1], '%B %Y')` to a trough of `r round(p1_pi_1$pi_ratio[2], 2)` on `r format(p1_pi_1$date[2], '%B %Y')` representing an annual decline of `r abs(round((((p1_pi_1$pi_ratio[2])/p1_pi_1$pi_ratio[1] - 1)/getDif(p1_pi_1$date[1], p1_pi_1$date[2]) * 100), 2))` pp per year. The decline of price-to-income in this period was driven by strong growth in real household income and slight decline in the real median home price. 
+
+##### Post 1963
+
+Post 1963, the price-to-income ratio has risen steadily, from a trough of `r round(p1_pi_2$pi_ratio[2], 2)` on `r format(p1_pi_2$date[2], '%B %Y')` to a peak of `r round(p1_pi_2$pi_ratio[1], 2)` on `r format(p1_pi_2$date[1], '%B %Y')`, representing a growth of `r abs(round((((p1_pi_2$pi_ratio[2]/p1_pi_2$pi_ratio[1]) - 1)/getDif(p1_pi_2$date[1], p1_pi_2$date[2]) * 100), 2))` pp per year. There are some notable housing bubbles in recent times. DETAILS ON HOUSING BUBBLES FROM 2003 TO 2023.
 
 #### debt-to-income ratio
 
 ```{r}
 #| label: fig-debt-to-income-ratio
-#| fig-cap: "Ratio of monthly mortgage to monthly income over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Hover over the lines to see the percentile of the observation and ranges for forecasts."
+#| fig-cap: "Ratio of monthly mortgage to monthly income over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Vertical gray bars indicate recessions. Hover over the lines to see the percentile of the observation and ranges for forecasts."
 #| column: body
 #| out-width: "100%"
 

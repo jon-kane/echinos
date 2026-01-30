@@ -101,6 +101,26 @@ tb_n = bind_rows(
 ) %>% 
   arrange(symbol, date) 
 
+tb_recession = tq_get(
+  "USREC", 
+  get = "economic.data", 
+  from = min(tb_n$date), 
+  to = Sys.Date()
+)%>%
+  filter(symbol == "USREC", price == 1) %>% 
+  arrange(date) %>% 
+  # Calculate the time difference between consecutive recession months
+  mutate(date_diff = c(NA, diff(date))) %>% 
+  # Identify gaps larger than ~1 month (35 days) to mark new recessions
+  mutate(new_period = if_else(is.na(date_diff) | date_diff > 35, 1, 0)) %>% 
+  mutate(recession_id = cumsum(new_period)) %>% 
+  group_by(recession_id) %>% 
+  summarize(
+    xmin = min(date), 
+    xmax = max(date)
+  ) %>% 
+  ungroup()
+
 # get the max-min date to consider
 min_date = tb_n %>% 
   # filter(symbol != "MORTGAGE30US") %>% 
@@ -197,7 +217,8 @@ modeled_data = harmonized_data %>%
 
 data_list = list(
   tb_n  = tb_n, # national data, raw
-  tb_nm = modeled_data # national data, modeled
+  tb_nm = modeled_data, # national data, modeled
+  tb_re = tb_recession # recession data
 )
 
 saveRDS(data_list, here::here("posts/COST_OF_HOUSING/national-data.rds"))
