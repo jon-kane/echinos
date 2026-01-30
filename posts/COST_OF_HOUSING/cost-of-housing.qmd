@@ -146,8 +146,8 @@ di_data = getStuff("dti_ratio", tb_final01)
 
 At a national scale,
 
--   From `r format(min(pi_data$tb$date), '%B %Y')` to `r format(max(pi_data$tb$date), '%B %Y')`^[Some of the most recent data used to compute these metrics come from forecasts. See @tbl-observation-dates for details on the range of the underlying data.], the price-to-income ratio of a home has **increased by `r round(coef(pi_data$mod)[2]*365*100, 2)` percentage points (pp) per year on average**. As of `r format(max(pi_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(pi_data$tb$pi_ratio), 2)`^[Meaning the typical house costs the typical household `r round(last(pi_data$tb$pi_ratio), 2)` $\times$ their gross annual income.], placing it in the **`r scales::ordinal(pi_data$tp * 100)` percentile of all observations** in this period.
--   From `r format(min(di_data$tb$date), '%B %Y')` to `r format(max(di_data$tb$date), '%B %Y')`, the mortgage debt-to-income ratio has **decreased by `r round(coef(di_data$mod)[2]*365*100, 2)` pp per year on average**. As of `r format(max(di_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(di_data$tb$dti_ratio), 2)`^[Meaning the typical household would spend `r scales::percent(last(di_data$tb$dti_ratio), accuracy = 1)` of their monthly income on the typical mortgage. This calculation assumes only interest and principal.], placing it in the **`r scales::ordinal(di_data$tp * 100)` percentile of all observations** in this period.
+-   From `r format(min(pi_data$tb$date), '%B %Y')` to `r format(max(pi_data$tb$date), '%B %Y')`^[Some of the most recent data used to compute these metrics come from forecasts. See @tbl-observation-dates for details on the range of the underlying data.], the price-to-income ratio of a home has **`r ifelse(coef(pi_data$mod)[2] < 0, "decreased", "increased")` by `r round(abs(coef(pi_data$mod)[2]*365*100), 2)` percentage points (pp) per year on average**. As of `r format(max(pi_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(pi_data$tb$pi_ratio), 2)`^[Meaning the typical house costs the typical household `r round(last(pi_data$tb$pi_ratio), 2)` $\times$ their gross annual income.], placing it in the **`r scales::ordinal(pi_data$tp * 100)` percentile of all observations** in this period.
+-   From `r format(min(di_data$tb$date), '%B %Y')` to `r format(max(di_data$tb$date), '%B %Y')`, the mortgage debt-to-income ratio has **`r ifelse(coef(di_data$mod)[2] < 0, "decreased", "increased")` by `r round(abs(coef(di_data$mod)[2]*365*100), 2)` pp per year on average**. As of `r format(max(di_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(di_data$tb$dti_ratio), 2)`^[Meaning the typical household would spend `r scales::percent(last(di_data$tb$dti_ratio), accuracy = 1)` of their monthly income on the typical mortgage. This calculation assumes only interest and principal.], placing it in the **`r scales::ordinal(di_data$tp * 100)` percentile of all observations** in this period.
 
 # intro
 
@@ -174,15 +174,17 @@ I'm *planning* to examine this at three different geographic scales:
 
 ### data
 
-The data I'm using is mostly from the [FRED](https://fred.stlouisfed.org/). I've supplemented some of these series with data extending further back to get a more complete picture. Below are the data series and where I got the supplemental data:
+The data I'm using is mostly from the [FRED](https://fred.stlouisfed.org/). I've supplemented some of these series with data extending further back to get a more complete picture. Below are the data series and where I got the supplemental data.
+    
+| series id | description | sources & notes |
+|:---|:---|:---|
+| [CPIAUCSL](https://fred.stlouisfed.org/series/CPIAUCSL) | Consumer Price Index for All Urban Consumers: All Items in U.S. City Average | CPI for all urban consumers. This index covers roughly 88% of the total population. See series link for details. |
+| [MEHOINUSA646N](https://fred.stlouisfed.org/series/MEHOINUSA646N) | Median Household Income in the United States | Supplemental data for [1947-1965](https://www2.census.gov/library/publications/1999/compendia/statab/119ed/tables/sec31.pdf) and [1967-1983](https://www2.census.gov/programs-surveys/demo/tables/p60/276/tableD1.xlsx) sourced from US Census Bureau. |
+| [MORTGAGE30US](https://fred.stlouisfed.org/series/MORTGAGE30US) | 30-Year Fixed Rate Mortgage Average in the U.S. | Restrictive filters on down payments and credit scores help to minimize outliers. See [Freddie Mac FAQs](https://www.freddiemac.com/pmms#faqs) for details. |
+| [MSPUS](https://fred.stlouisfed.org/series/MSPUS) | Median Sales Price of Houses Sold for the United States | Years 1953-1962 supplemented via [NAR, Shiller, and FHFA indices](https://dqydj.com/historical-home-prices/). |
 
--   [CPIAUCSL](https://fred.stlouisfed.org/series/CPIAUCSL): Consumer Price Index for All Urban Consumers: All Items in U.S. City Average
--   [MEHOINUSA646N](https://fred.stlouisfed.org/series/MEHOINUSA646N): Median Household Income in the United States
-    -   Years 1947-1965 are from [p.877 of a US Census Bureau publication](https://www2.census.gov/library/publications/1999/compendia/statab/119ed/tables/sec31.pdf).
-    -   Years 1967-1983 are also from the [US Census Bureau](https://www2.census.gov/programs-surveys/demo/tables/p60/276/tableD1.xlsx)
--   [MORTGAGE30US](https://fred.stlouisfed.org/series/MORTGAGE30US): 30-Year Fixed Rate Mortgage Average^[Unfortunately, there is no high-frequency median equivalent to this data that I know of. Fortunately, there are some restrictive filters (e.g. 20% down, excellent credit, excluding jumbo loans) on which data to use that removes large outliers making the mean more centered. See [here](https://www.freddiemac.com/pmms#faqs) for more details.] in the United States
--   [MSPUS](https://fred.stlouisfed.org/series/MSPUS): Median Sales Price of Houses Sold for the United States
-    -   Years 1953-1962 are from few different indices^[The [NAR Median Sales Price of Existing Homes](http://www.realtor.org/topics/existing-home-sales), [Shiller's NSA Home Sale Index](http://www.econ.yale.edu/~shiller/data.htm), and the [FHFA's NSA Existing Home Sale Index](https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index.aspx).] that have been combined. The author explains the process [here](https://dqydj.com/historical-home-prices/).
+: Data series IDs, descriptions, and supplemental sourcing for national scale analysis {#tbl-data-dictionary-national}
+    
 
 Let's take a look at the data below:
 
@@ -641,7 +643,7 @@ From `r format(min(hp_data$tb$date), '%B %Y')` to `r format(max(hp_data$tb$date)
 What complicates this analysis is that the *typical* house from the 1950s looks much different than the *typical* house from today. Across the decades, houses look pretty different, whether that be square footage or amenities. To get a visual sense of these differences:
 
 ::: {#fig-housing-comparison layout-ncol="2"}
-![The "rambler" (a ranch house) was the [most popular](https://www.nps.gov/articles/000/identifying-the-1950s-ranch-house-interior-as-a-cultural-resource.htm#:~:text=It%20was%20the%20ranch%20house,of%20these%20were%20ranch%20houses.) style of home for new builds in the 1950s. The home pictured has 3 beds, 1 bath, and is 1,234 square feet (excluding the 1-car garage). Images from [Town and Country Homes to Fit Your Budget, 1954](https://archive.org/details/towncountryhomes00home/page/n59/mode/2up) p. 60-61.](/posts/COST_OF_HOUSING/images/1950s-home.svg)
+![The "rambler" (a ranch house) was the [most popular](https://www.nps.gov/articles/000/identifying-the-1950s-ranch-house-interior-as-a-cultural-resource.htm#:~:text=It%20was%20the%20ranch%20house,of%20these%20were%20ranch%20houses.) style of home for new builds in the 1950s. The home pictured has 3 beds, 1.5 baths, and is 1,234 square feet (excluding the 1-car garage). Images from [Town and Country Homes to Fit Your Budget, 1954](https://archive.org/details/towncountryhomes00home/page/n59/mode/2up) p. 60-61.](/posts/COST_OF_HOUSING/images/1950s-home.svg)
 
 ![The modern farmhouse is considered one of the [most popular](https://www.inman.com/2023/07/07/times-names-modern-farmhouse-defining-residential-style-of-2020s/#:~:text=The%20modern%20farmhouse%2C%20with%20its,July%2007%2C%202023) styles of home for new builds in the 2020s. The home pictured has 3 beds, 2.5 baths, and is 1,959 square feet (excluding the 2-car garage). Images from [Architectural Designs](https://www.architecturaldesigns.com/house-plans/single-story-modern-farmhouse-plan-with-3-bedrooms-under-2000-sq-ft-69194am).](/posts/COST_OF_HOUSING/images/2020s-home.svg)
 
@@ -739,7 +741,13 @@ This period has seen substantial growth. From January 2012 to `r tb_final01$date
 
 #### price-to-income ratio
 
-We can use nominal dollars to calculate the price to income ratio. I'll include a linear model to help us understand the trend over time.
+With the context from the previous two metrics, I'll examine the two most critical metrics: the price-to-income ratio and the debt-to-income ratio. I'll examine the former first.
+
+The price-to-income is calculated simply as,
+
+$$\frac{\text{median sales price of a house}}{\text{median household income}}$$
+
+This ratio tells us the sales price of a house as a multiple of the typical household income. We can use nominal dollars to calculate the price-to-income ratio. As before, I'll include a linear model to help us understand the trend over time.
 
 ```{r}
 #| label: fig-price-to-income-ratio
@@ -760,7 +768,20 @@ createForecastPlot(
 )
 ```
 
-From `r format(min(pi_data$tb$date), '%B %Y')` to `r format(max(pi_data$tb$date), '%B %Y')`, the price-to-income ratio of a home has **increased by `r round(coef(pi_data$mod)[2]*365*100, 2)` percentage points (pp) per year on average**. As of `r format(max(pi_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(pi_data$tb$pi_ratio), 2)`, placing it in the **`r scales::ordinal(pi_data$tp * 100)` percentile of all observations** in this period.
+From `r format(min(pi_data$tb$date), '%B %Y')` to `r format(max(pi_data$tb$date), '%B %Y')`, the price-to-income ratio of a home has **`r ifelse(coef(pi_data$mod)[2] < 0, "decreased", "increased")` by `r round(abs(coef(pi_data$mod)[2]*365*100), 2)` pp per year on average**. As of `r format(max(pi_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(pi_data$tb$pi_ratio), 2)`, placing it in the **`r scales::ordinal(pi_data$tp * 100)` percentile of all observations** in this period.
+
+FOCUS ANALYSIS ON TWO PERIODS: 1953-1963 AND POST 1963. NEED TO INCLUDE RECESSION BARS IN ALL FIGURES.
+
+```{r pi-ratio-over-two-periods}
+p1_pi_1 = tb_final01 %>% 
+  select(date, pi_ratio) %>% 
+  drop_na() %>% 
+  filter(year(date) < 1965) %>% 
+  arrange(desc(pi_ratio)) %>% 
+  slice(1, n())
+```
+
+From 1953 to late 1963, the price-to-income ratio fell precipitously^[This is probably overstated a bit since due to quality of data from pre-1963. See @tbl-data-dictionary-national for details.], from a peak of `r round(p1_pi_1$pi_ratio[1], 2)` on `r format(p1_pi_1$date[1], '%B %Y')` to a trough of `r round(p1_pi_1$pi_ratio[2], 2)` on `r format(p1_pi_1$date[2], '%B %Y')` representing an **annual decline of `r abs(round((((p1_pi_1$pi_ratio[2]/p1_pi_1$pi_ratio[1]) - 1)/getDif(p1_pi_1$date[1], p1_pi_1$date[2]) * 100), 2))` pp per year**. The decline of price-to-income in this period was driven by strong growth in real household income and slight decline in the real median home price. 
 
 
 #### debt-to-income ratio
@@ -784,6 +805,6 @@ createForecastPlot(
 )
 ```
 
-From `r format(min(di_data$tb$date), '%B %Y')` to `r format(max(di_data$tb$date), '%B %Y')`, the mortgage debt-to-income ratio has **decreased by `r round(coef(di_data$mod)[2]*365*100, 2)` pp per year on average**. As of `r format(max(di_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(di_data$tb$dti_ratio), 2)`, placing it in the **`r scales::ordinal(di_data$tp * 100)` percentile of all observations** in this period.
+From `r format(min(di_data$tb$date), '%B %Y')` to `r format(max(di_data$tb$date), '%B %Y')`, the mortgage debt-to-income ratio has **`r ifelse(coef(di_data$mod)[2] < 0, "decreased", "increased")` by `r round(abs(coef(pi_data$mod)[2]*365*100), 2)` pp per year on average**. As of `r format(max(di_data$tb$date), '%B %Y')`, the ratio stands at `r round(last(di_data$tb$dti_ratio), 2)`, placing it in the **`r scales::ordinal(di_data$tp * 100)` percentile of all observations** in this period.
 
 # references
