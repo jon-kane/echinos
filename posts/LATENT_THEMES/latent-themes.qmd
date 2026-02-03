@@ -1,6 +1,6 @@
 ---
-title: "From Prose to Patterns"
-description: "Discovering Latent Themes in Qualitative Data."
+title: "From prose to vectors"
+description: "Discovering latent themes in qualitative data."
 categories: [nlp, application]
 format: html
 date-modified: last-modified
@@ -11,3 +11,8 @@ code-links:
     href: "https://github.com/jon-kane/echinos/tree/main/posts/LATENT_THEMES"
 ---
 
+::: callout-warning
+## Work in Progress
+
+I am actively updating this post. Content will change as I work my way through this article.
+:::
