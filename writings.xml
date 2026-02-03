@@ -10,7 +10,7 @@
 <atom:link href="https://jon-kane.github.io/echinos/writings.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Mon, 02 Feb 2026 23:23:53 GMT</lastBuildDate>
+<lastBuildDate>Tue, 03 Feb 2026 23:56:50 GMT</lastBuildDate>
 <item>
   <title>How expensive is housing in the US?</title>
   <link>https://jon-kane.github.io/echinos/posts/COST_OF_HOUSING/cost-of-housing.html</link>
@@ -390,16 +390,72 @@ Rose, Stephen. 2015. <span>“<a href="https://www.urban.org/sites/default/files
   <category>housing</category>
   <category>economics</category>
   <guid>https://jon-kane.github.io/echinos/posts/COST_OF_HOUSING/cost-of-housing.html</guid>
-  <pubDate>Mon, 02 Feb 2026 23:23:53 GMT</pubDate>
+  <pubDate>Tue, 03 Feb 2026 23:56:50 GMT</pubDate>
 </item>
 <item>
-  <title>From Prose to Patterns</title>
+  <title>download the data</title>
+  <link>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/analysis.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div id="c4a6ff19-384b-4183-9103-60e0a3440507" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>Data already exists. Skipping download.
+Total rows in dataset: 1259
+Rows with text comments for analysis: 164</code></pre>
+</div>
+</div>
+<section id="test-of-hdbscan" class="level1">
+<h1>test of hdbscan</h1>
+<div id="55f5e85f-32b0-4f4e-aeaf-0a30b054b237" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading weights: 100%|█████████████████████| 103/103 [00:00&lt;00:00, 445.35it/s, Materializing param=pooler.dense.weight]
+BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Batches: 100%|███████████████████████████████████████████████████████████████████████████| 6/6 [00:02&lt;00:00,  2.18it/s]
+C:\Anaconda3\envs\text_analysis\lib\site-packages\umap\umap_.py:1952: UserWarning: n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallelism.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Discovered 14 distinct meta-categories!</code></pre>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/analysis.html</guid>
+  <pubDate>Tue, 03 Feb 2026 23:56:50 GMT</pubDate>
+</item>
+<item>
+  <title>From prose to vectors</title>
   <link>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/latent-themes.html</link>
   <description><![CDATA[ 
 
 
 
 
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Work in Progress
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I am actively updating this post. Content will change as I work my way through this article.</p>
+</div>
+</div>
 
 
 
@@ -407,7 +463,7 @@ Rose, Stephen. 2015. <span>“<a href="https://www.urban.org/sites/default/files
   <category>nlp</category>
   <category>application</category>
   <guid>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/latent-themes.html</guid>
-  <pubDate>Mon, 02 Feb 2026 23:23:53 GMT</pubDate>
+  <pubDate>Tue, 03 Feb 2026 23:56:50 GMT</pubDate>
 </item>
 </channel>
 </rss>
