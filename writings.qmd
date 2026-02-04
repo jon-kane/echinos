@@ -1,7 +1,8 @@
 ---
 title: "writings"
 listing:
-  contents: posts          # This folder will contain your individual .qmd posts
+  contents: 
+    - "posts/**/*.qmd"
   sort: "date desc"        # Newest posts at the top
   type: default            # Standard list view
   categories: true         # Enables tag-based filtering (like your 'tags' array)
