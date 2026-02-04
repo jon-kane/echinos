@@ -1,5 +1,8 @@
 project:
   type: website
+  exclude:
+    - "**/*.ipynb"
+    - "**/.ipynb_checkpoints"
 execute:
     freeze: auto  # this ensures code is only re-run when its specific .qmd file changes
     echo: false
