@@ -10,7 +10,7 @@
 <atom:link href="https://jon-kane.github.io/echinos/writings.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Tue, 03 Feb 2026 23:56:50 GMT</lastBuildDate>
+<lastBuildDate>Wed, 04 Feb 2026 00:06:20 GMT</lastBuildDate>
 <item>
   <title>How expensive is housing in the US?</title>
   <link>https://jon-kane.github.io/echinos/posts/COST_OF_HOUSING/cost-of-housing.html</link>
@@ -390,7 +390,7 @@ Rose, Stephen. 2015. <span>“<a href="https://www.urban.org/sites/default/files
   <category>housing</category>
   <category>economics</category>
   <guid>https://jon-kane.github.io/echinos/posts/COST_OF_HOUSING/cost-of-housing.html</guid>
-  <pubDate>Tue, 03 Feb 2026 23:56:50 GMT</pubDate>
+  <pubDate>Wed, 04 Feb 2026 00:06:20 GMT</pubDate>
 </item>
 <item>
   <title>download the data</title>
@@ -433,7 +433,7 @@ C:\Anaconda3\envs\text_analysis\lib\site-packages\umap\umap_.py:1952: UserWarnin
 
  ]]></description>
   <guid>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/analysis.html</guid>
-  <pubDate>Tue, 03 Feb 2026 23:56:50 GMT</pubDate>
+  <pubDate>Wed, 04 Feb 2026 00:06:20 GMT</pubDate>
 </item>
 <item>
   <title>From prose to vectors</title>
@@ -463,7 +463,7 @@ C:\Anaconda3\envs\text_analysis\lib\site-packages\umap\umap_.py:1952: UserWarnin
   <category>nlp</category>
   <category>application</category>
   <guid>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/latent-themes.html</guid>
-  <pubDate>Tue, 03 Feb 2026 23:56:50 GMT</pubDate>
+  <pubDate>Wed, 04 Feb 2026 00:06:20 GMT</pubDate>
 </item>
 </channel>
 </rss>
