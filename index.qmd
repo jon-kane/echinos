@@ -77,5 +77,5 @@ html, body {
 <div class="text-block">
 I have a noisy brain. I'm also forgetful. In an attempt to organize that noise, and to help me remember things, I've started this website to share things that I find interesting. 
 
-Most writings will have a data science flavor, though I make no promises. This website is powered by coffee, so if you find any of this helpful and would like to support my work, consider <a href="https://buymeacoffee.com/justan3ngin33r">buying me a coffee</a>.
+Most writings will have a data science flavor, though I make no promises. This website is powered by coffee, so if you find any of this helpful and would like to support my work, consider <a href="https://buymeacoffee.com/echinos">buying me a coffee</a>.
 </div>
