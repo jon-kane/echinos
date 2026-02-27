@@ -16,3 +16,194 @@ code-links:
 
 I am actively updating this post. Content will change as I work my way through this article.
 :::
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("_common.R"))
+library(tidyquant)
+library(ggiraph)
+
+toy01 = readRDS(here::here("posts/LATENT_THEMES/data/toy_problem_01.rds"))
+toy02 = readRDS(here::here("posts/LATENT_THEMES/data/toy_problem_02.rds"))
+real_data = readRDS(here::here("posts/LATENT_THEMES/data/real_problem.rds"))
+
+joinLabeledData = function(data_list) {
+  data_list$df_labeled %>% 
+  bind_cols(
+    data_list$viz_embeddings %>% 
+      as.data.frame() %>% 
+      magrittr::set_colnames(c("x1", "x2"))
+    )
+}
+
+tb01 = joinLabeledData(toy01) %>% 
+  mutate(text = tolower(text)) %>% 
+  mutate(true_category = tolower(true_category))
+
+# ------------------------------------------------------------------------------
+# functions for plots
+# use labels
+createSimpleLabels = function(
+    plot_data,
+    title_ = "GIVE ME TITLE"
+    ) {
+  
+  # 2. Build the ggplot object
+  scatter_plot = plot_data %>% 
+    ggplot(aes(x = x1, y = x2, label = text)) +
+    geom_text(
+      color = "gray80",
+      size = 5
+    ) +
+    coord_fixed(xlim = c(13.5, 18)) +
+    labs(
+      title = title_,
+      x = "dimension 1",
+      y = "dimension 2"
+    ) +
+    theme(
+      plot.background = element_rect(fill = "#070607", color = "#070607"),
+      panel.background = element_rect(fill = "#070607", color = "#070607"),
+      plot.title = element_text(color = "gray80", size = 16, face = "bold"),
+      axis.text = element_text(color = "gray80"),
+      axis.title = element_text(color = "gray80"),
+      panel.grid.major = element_line(color = "gray30", linewidth = 0.2),
+      panel.grid.minor = element_blank(),
+      legend.background = element_rect(fill = "#070607", color = "#070607"),
+      legend.text = element_text(color = "gray80"),
+      legend.title = element_text(color = "gray80")
+    )
+  
+  # 3. Render the widget
+  interactive_widget = girafe(
+    ggobj = scatter_plot,
+    width_svg = 9,
+    height_svg = 6,
+    bg = "#070607",
+    options = list(
+      opts_hover(css = "stroke: white; stroke-width: 2px; r: 5pt;"),
+      opts_tooltip(
+        css = "background-color: #070607; color: gray80; padding: 10px; border: 1px solid gray50; max-width: 300px; white-space: normal;"
+      ),
+      opts_toolbar(saveaspng = FALSE)
+    )
+  )
+  
+  return(interactive_widget)
+}
+
+createInteractiveScatter02 = function(
+    plot_data,
+    title_ = "GIVE ME TITLE"
+    ) {
+  
+  # 1. Format the tooltip text
+  plot_data = plot_data %>%
+    mutate(
+      hover_tooltip = paste0(
+        "<b>Text:</b> ", text, "<br>",
+        "<b>True Category:</b> ", true_category, "<br>",
+        "<b>LLM Label:</b> ", llm_label
+      )
+    )
+  
+  # 2. Build the ggplot object
+  scatter_plot = plot_data %>% 
+    ggplot(aes(x = x1, y = x2, color = true_category)) +
+    geom_point_interactive(
+      aes(
+        tooltip = hover_tooltip,
+      ),
+      size = 3,
+      alpha = 0.8
+    ) +
+    coord_fixed() +
+    labs(
+      title = title_,
+      x = "dimension 1",
+      y = "dimension 2",
+      color = "true category"
+    ) +
+    theme(
+      plot.background = element_rect(fill = "#070607", color = "#070607"),
+      panel.background = element_rect(fill = "#070607", color = "#070607"),
+      plot.title = element_text(color = "gray80", size = 16, face = "bold"),
+      axis.text = element_text(color = "gray80"),
+      axis.title = element_text(color = "gray80"),
+      panel.grid.major = element_line(color = "gray30", linewidth = 0.2),
+      panel.grid.minor = element_blank(),
+      legend.background = element_rect(fill = "#070607", color = "#070607"),
+      legend.text = element_text(color = "gray80"),
+      legend.title = element_text(color = "gray80")
+    )
+  
+  # 3. Render the widget
+  interactive_widget = girafe(
+    ggobj = scatter_plot,
+    width_svg = 9,
+    height_svg = 6,
+    bg = "#070607",
+    options = list(
+      opts_hover(css = "stroke: white; stroke-width: 2px; r: 5pt;"),
+      opts_tooltip(
+        css = "background-color: #070607; color: gray80; padding: 10px; border: 1px solid gray50; max-width: 300px; white-space: normal;"
+      ),
+      opts_toolbar(saveaspng = FALSE)
+    )
+  )
+  
+  return(interactive_widget)
+}
+```
+
+# intro 
+
+A friend at my church is working on her PhD in the social sciences. Not long ago, she and her husband had lunch with my wife and I. We got to talking about a time consuming part of her research related to *coding*, which in her context doesn't mean computer programming, but is the process of transforming qualitative or open-ended responses from survey data into quantitative data that can be analyzed statistically. She had been doing this process manually along with several other fellow researchers. Upon hearing this, being the nerd that I am, I excitedly told her about some of the advances in NLP that could assist in that process, specifically **vector embeddings**.
+
+Being the good Samaritan that I am^[hardly], I wanted to write an article to illustrate this methodology. I'll introduce the concept and give three examples: two toy problems, and one real problem. I'll use synthetic data for the toy problems, since we can know the *right* answer. The real problem is tricky, and I won't dive too deep into it, but it should help motivate an approach that can be taken.
+
+# one more thing about coding
+
+Depending on your research goals, you’ll usually take one of two paths when coding:
+
+1. **Deductive coding** - you start with a pre-defined list of codes (a "codebook") based on existing theories or specific business questions. You then categorize responses into these buckets.
+2. **Inductive coding** - you have no pre-set categories. You read the responses first and allow the codes to *emerge* from the data. 
+
+Broadly, deductive coding can be thought of as a *supervised* machine learning (ML) task whereas inductive coding is an *unsupervised* ML task. 
+
+::: callout-note
+## To Do
+More details on supervised/unsupervised ML and my focus on unsupervised in this article.
+:::
+
+# so, what are vector embeddings?
+
+In Natural Language Processing (NLP), a vector embedding is a numerical representation of a word, sentence, or document as a point in a high-dimensional space. This may seem a bit abstract, buy will make more sense in a moment when we look at the toy problems. Vector embeddings have been around since at least 2013 with the release of [Word2Vec](https://en.wikipedia.org/wiki/Word2vec), but have gotten immensely more useful post the introduction transformer models like [BERT](https://arxiv.org/abs/1810.04805). 
+
+At its core, an embedding is a way of teaching a computer that "dog" and "puppy" are siblings, while "dog" and "skyscraper" are complete strangers. In a traditional "one-hot encoding" system, every word is treated as an isolated island with no relationship to its neighbors.
+
+With vector embeddings, we place these words into a multi-dimensional coordinate system. If we were to visualize this in just two dimensions^[The [model](https://arxiv.org/abs/2508.21085) I use here embeds input into a 768 dimensional space. State of the Art models will use up to 4,096 dimensions.], we would see clusters forming: "taco," "pasta," and "pizza" would huddle together in a "food" neighborhood, away from words like "kangaroo," "lion," and "penguin" in the "animal" district. Let's see this in action.
+
+# our first toy problem
+
+::: callout-note
+## To Do
+Interpretation of first toy problem.
+:::
+
+
+```{r}
+#| label: toy01-plot
+#| out-width: "100%"
+#| fig-cap: "Embedding some names of foods and animals in a 2D space."
+
+createSimpleLabels(
+  tb01,
+  "a simple embedding"
+  )
+```
+
+
+

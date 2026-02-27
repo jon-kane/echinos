@@ -151,29 +151,23 @@ At a national scale,
 
 # intro
 
-Much has been written recently on housing affordability, with much of it being negative^[Here's a few: [CBS](https://www.cbsnews.com/news/affordable-housing-home-prices-bankrate/), [NBC](https://www.nbcnews.com/business/real-estate/exactly-unaffordable-todays-housing-market-s-getting-worse-rcna207007), and [FOX](https://www.foxbusiness.com/lifestyle/only-28-us-homes-now-affordable-typical-american-household-buying-power-drops).]. Aside from the [tendency of news organizations to produce negative content](https://hai.stanford.edu/news/the-data-behind-your-doom-scroll-how-negative-news-takes-over-your-feed), I think what is lost in these reports is historical context: where were we, and where are we now? Even when the historical context is present, metrics may be used that, if not interpreted carefully, can be misleading. For instance, [longtermtrends.com](https://www.longtermtrends.com/home-price-median-annual-income-ratio/) gives a chart that shows the ratio of the [S&P/Case-Shiller Home Price Index](https://www.spglobal.com/spdji/en/indices/indicators/sp-cotality-case-shiller-us-national-home-price-nsa-index/#overview) to the median household income. This index is used a lot since it's high-quality and has data that dates back to 1890. However, the problem here is that the Case-Shiller index is a weighted average. The distribution of home values tend to be right skewed, so an average will be greater than the median (the *typical* house). So, dividing the average by the median produces a price-to-income ratio that is a bit more pessimistic. *The typical person is buying the typical house, not the average house.*
+Much has been written recently on housing affordability, with much of it being negative^[Here's a few: [CBS](https://www.cbsnews.com/news/affordable-housing-home-prices-bankrate/), [NBC](https://www.nbcnews.com/business/real-estate/exactly-unaffordable-todays-housing-market-s-getting-worse-rcna207007), and [FOX](https://www.foxbusiness.com/lifestyle/only-28-us-homes-now-affordable-typical-american-household-buying-power-drops).]. Aside from the fact that [news outlets tend to produce negative content](https://hai.stanford.edu/news/the-data-behind-your-doom-scroll-how-negative-news-takes-over-your-feed), these reports often lack historical context or rely on misleading metrics. For instance, [longtermtrends.com](https://www.longtermtrends.com/home-price-median-annual-income-ratio/) gives a chart that shows the ratio of the [S&P/Case-Shiller Home Price Index](https://www.spglobal.com/spdji/en/indices/indicators/sp-cotality-case-shiller-us-national-home-price-nsa-index/#overview) to the median household income. Comparisons like these are problematic, since the Case-Shiller index is a weighted average^[To be more specific, the index uses a repeat-sales method. It measures the change in the price of the same houses over time.]. The distribution of home values tend to be right skewed, so an average will be greater than the median (the *typical* house). So, dividing the average by the median produces a price-to-income ratio that is more pessimistic. *The typical person is buying the typical house, not the average house.*
 
-In order to provide some clarity on the question of housing affordability, I'm going to look at four metrics in particular:
+To provide a more accurate historical perspective, I analyze four metrics:
 
 1.  The real^[`r cpi_baseline_year` dollars.] median home price over time.
 2.  The real median household income over time.
 3.  The ratio of the typical cost of a house to the typical household income. In this article, I'll refer to it as the *price-to-income ratio*.
 4.  The proportion of a person's monthly income that would be dedicated to their monthly mortgage. For my analysis, this will be limited to only interest and principal^[I'm interested in having a better picture of this by incorporating property taxes and home insurance costs if someone could get me the data...], and will assume a 20% downpayment, so a loan on 80% the value of a house. I'll refer to it as the *debt-to-income ratio* in the article.
 
-The last two metrics are the most important and incorporate the top two. However, the top two can give us better context in and of themselves. 
+These metrics function as a logical progression. I use the real median home price and the real median household income to establish the raw baseline of purchasing power and asset costs, stripped of inflationary noise. The price-to-income ratio then serves as a measure of the "sticker price" accessibility, i.e. how many years of work a house costs. Finally, the debt-to-income ratio is, perhaps, the most critical metric. By incorporating prevailing interest rates at the time of purchase, it reflects the actual monthly burden on a household's cash flow, which is how most Americans actually experience housing costs.
 
-::: callout-note
-## To Do
-- explain how these metrics will be used in the analysis
-- explain the flow of the document
-:::
+In this article, I examine housing affordability at three nested scales-national, state, and county. This allows us to see how broad economic trends manifest in specific local markets. Within each geographic section, I analyze the four core metrics individually to identify their unique contributions to affordability. Each geographic category concludes with a synthesis of its findings. Finally, the article concludes by integrating these levels to contextualize current conditions.
 
 # analysis
 
 ::: callout-note
 ## To Do
-I'm *planning* to examine this at three different geographic scales:
-
 -   national (IN PROGRESS)
 -   state (NOT STARTED)
 -   county (NOT STARTED)
