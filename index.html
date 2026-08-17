@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>home – echinos</title>
+<title>writings – echinos</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -31,17 +37,18 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./images/logo_gray.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5111478a3e739f981a6638106c7172e1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-6160b8303b6631bceca7c10805115cec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,10 +76,68 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-reading-time','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
-</head>
+<link rel="alternate" type="application/rss+xml" title="echinos" href="index.xml" data-external="1"></head>
 
 <body class="nav-fixed quarto-light">
 
@@ -94,11 +159,11 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">home</span></a>
+<span class="menu-text">writings</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./writings.html"> 
-<span class="menu-text">writings</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">about</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -108,23 +173,23 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    </div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZGVlcCUyMGRpdmU=">deep dive <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZWNvbm9taWNz">economics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="aG91c2luZw==">housing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmxw">nlp <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">home</h1>
+<h1 class="title">writings</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -136,85 +201,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<style>
-/* 1. Hide the default Quarto title header */
-#title-block-header {
-  display: none;
-}
 
-/* 2. Force all Quarto layout containers to be transparent */
-/* Added .quarto-container to this list */
-#quarto-content, 
-#quarto-margin-sidebar, 
-.page-columns, 
-.quarto-container,
-main {
-  background: transparent !important;
-}
 
-/* Define the Fade In Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px); /* Starts slightly lower */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.text-block {
-  position: relative; 
-  z-index: 1;
-  /* Apply the animation */
-  opacity: 0; /* Start invisible so it doesn't flash before fading in */
-  animation: fadeInUp 1s ease-out forwards; 
-  animation-delay: 0.2s; /* Optional: Wait 0.5s before starting */
-}
 
-/* 3. Bring the sticky container forward, but ignore mouse clicks */
-.sticky-container {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;  /* CHANGED: Brought up from -1 to 0 so it sits on the canvas */
-  pointer-events: none; /* NEW: Ensures clicks pass through to links/text */
-  margin-bottom: 0; 
-}
-
-/* 4. Ensure the text sits ON TOP of the animation */
-.text-block {
-  position: relative; /* NEW: Required for z-index to work */
-  z-index: 1;         /* NEW: Puts text above the z-index: 0 animation */
-}
-
-/* Note: You had a .content-wrapper class defined but not used in your HTML. 
-   I applied the necessary logic to .text-block above instead. */
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow-y: auto; /* Changed to auto so you can scroll if text gets long */
-  background-color: #000;
-}
-</style>
-<div class="sticky-container">
-<iframe src="collatz_visual.html" width="100%" height="100%" style="border:none;">
-</iframe>
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="listing-actions-group">
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
 </div>
-<div class="text-block">
-<p>I have a noisy brain. I’m also forgetful. In an attempt to organize that noise, and to help me remember things, I’ve started this website to share things that I find interesting.</p>
-<p>Most writings will have a data science flavor, though I make no promises. This website is powered by coffee, so if you find any of this helpful and would like to support my work, consider <a href="https://buymeacoffee.com/echinos">buying me a coffee</a>.</p>
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="ZGVlcCUyMGRpdmUlMkNob3VzaW5nJTJDZWNvbm9taWNz" data-listing-file-modified-sort="1787003555399" data-listing-reading-time-sort="34" data-listing-word-count-sort="6708">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/COST_OF_HOUSING/cost-of-housing.html" class="no-external">How expensive is housing in the US?</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcCUyMGRpdmU='); return false;">deep dive</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('aG91c2luZw=='); return false;">housing</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">economics</div>
+
 </div>
+<div class="delink listing-description"><a href="./posts/COST_OF_HOUSING/cost-of-housing.html" class="no-external">
+<p>An examination of the cost of housing in the US over time.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/COST_OF_HOUSING/cost-of-housing.html" class="no-external">
+<div class="listing-reading-time">34 min</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="bmxw" data-listing-file-modified-sort="1787003555407" data-listing-reading-time-sort="7" data-listing-word-count-sort="1398">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/LATENT_THEMES/latent-themes.html" class="no-external">From prose to vectors</a>
+</h3>
+<div class="listing-categories">
 
+<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
 
-
-</main> <!-- /main -->
+</div>
+<div class="delink listing-description"><a href="./posts/LATENT_THEMES/latent-themes.html" class="no-external">
+<p>Discovering latent themes in qualitative data.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/LATENT_THEMES/latent-themes.html" class="no-external">
+<div class="listing-reading-time">7 min</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

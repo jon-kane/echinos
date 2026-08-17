@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jon-kane.github.io/echinos/writings.html</loc>
-    <lastmod>2026-02-04T00:13:07.578Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jon-kane.github.io/echinos/posts/COST_OF_HOUSING/cost-of-housing.html</loc>
-    <lastmod>2026-02-06T20:42:22.867Z</lastmod>
+    <loc>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/latent-themes.html</loc>
+    <lastmod>2026-08-17T21:52:35.407Z</lastmod>
   </url>
   <url>
     <loc>https://jon-kane.github.io/echinos/index.html</loc>
-    <lastmod>2026-02-05T16:43:56.063Z</lastmod>
+    <lastmod>2026-08-17T22:27:13.841Z</lastmod>
   </url>
   <url>
-    <loc>https://jon-kane.github.io/echinos/posts/LATENT_THEMES/latent-themes.html</loc>
-    <lastmod>2026-02-27T00:36:34.542Z</lastmod>
+    <loc>https://jon-kane.github.io/echinos/about.html</loc>
+    <lastmod>2026-08-17T22:21:26.772Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jon-kane.github.io/echinos/posts/COST_OF_HOUSING/cost-of-housing.html</loc>
+    <lastmod>2026-08-17T21:52:35.399Z</lastmod>
   </url>
 </urlset>
