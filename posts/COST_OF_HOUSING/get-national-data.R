@@ -1,6 +1,18 @@
 source(here::here("_common.R"))
 library(tidyquant)
 
+# Set FRED API key if provided in .Renviron / environment
+if (nzchar(Sys.getenv("FRED_API_KEY"))) {
+  fn <- quantmod:::getSymbols.FRED
+  b <- deparse(body(fn))
+  b <- gsub("obs <- fetch(URL)", "obs <- jsonlite::fromJSON(fetch(URL))$observations", b, fixed = TRUE)
+  body(fn) <- parse(text = paste(b, collapse = "\n"))
+  unlockBinding("getSymbols.FRED", asNamespace("quantmod"))
+  assignInNamespace("getSymbols.FRED", fn, ns = "quantmod")
+  lockBinding("getSymbols.FRED", asNamespace("quantmod"))
+  setDefaults(getSymbols.FRED, api.key = Sys.getenv("FRED_API_KEY"))
+}
+
 # data_series = c(
 #   "CPIAUCSL",     # Consumer Price Index for All Urban Consumers: All Items in U.S. City Average
 #   "MSPUS",        # Median Sales Price of Houses Sold for the United States
@@ -187,9 +199,9 @@ models = harmonized_data %>%
   )
 
 # 5. Forecast
-# Forecast 2 years (24 months) ahead
+# Forecast 3 years (36 months) ahead
 forecasts = models %>%
-  forecast(h = "2 years")
+  forecast(h = "3 years")
 
 # 6. Extract Mean and Prediction SD
 # fable returns a distribution; we extract the SD from it

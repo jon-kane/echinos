@@ -689,6 +689,8 @@ Let's put the nominal median household income in `r cpi_baseline_year` dollars. 
 #| fig-cap: !expr paste0("real median household income (", cpi_baseline_year, " dollars) over time. Monthly forecasts with 3$\\sigma$ prediction interval. Linear model with 3$\\sigma$ confidence interval. Vertical gray bars indicate recessions. Hover over the lines to see the percentile of the observation and ranges for forecasts.")
 #| column: body
 #| out-width: "100%"
+#| warning: false
+#| message: false
 
 createForecastPlot(
   data_main = tb_final01,
