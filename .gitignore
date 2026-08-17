@@ -8,5 +8,10 @@
 
 **/*.quarto_ipynb
 
+# Environment & Secrets
+.Renviron
+.env
+
 # VS Code
+.vscode/
 *.code-workspace
