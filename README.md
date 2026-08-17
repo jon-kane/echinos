@@ -1,6 +1,6 @@
 # echinos
 
-[Personal website](https://jon-kane.github.io/echinos/) and data science blog by [jon-kane](https://jon-kane.github.io/echinos).
+[Personal website](https://jon-kane.github.io/echinos/) and data science blog.
 
 Built with [Quarto](https://quarto.org/) and R... and sometimes Python.
 
