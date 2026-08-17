@@ -1,81 +1,14 @@
 ---
-title: "home"
+title: "writings"
+listing:
+  contents: 
+    - "posts/**/*.qmd"
+  sort: "date desc"        
+  type: default            
+  categories: true         
+  sort-ui: false
+  filter-ui: true          
+  fields: [date, title, reading-time, description, categories]
+  feed: true               
+page-layout: full
 ---
-
-<style>
-/* 1. Hide the default Quarto title header */
-#title-block-header {
-  display: none;
-}
-
-/* 2. Force all Quarto layout containers to be transparent */
-/* Added .quarto-container to this list */
-#quarto-content, 
-#quarto-margin-sidebar, 
-.page-columns, 
-.quarto-container,
-main {
-  background: transparent !important;
-}
-
-/* Define the Fade In Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px); /* Starts slightly lower */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.text-block {
-  position: relative; 
-  z-index: 1;
-  /* Apply the animation */
-  opacity: 0; /* Start invisible so it doesn't flash before fading in */
-  animation: fadeInUp 1s ease-out forwards; 
-  animation-delay: 0.2s; /* Optional: Wait 0.5s before starting */
-}
-
-/* 3. Bring the sticky container forward, but ignore mouse clicks */
-.sticky-container {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;  /* CHANGED: Brought up from -1 to 0 so it sits on the canvas */
-  pointer-events: none; /* NEW: Ensures clicks pass through to links/text */
-  margin-bottom: 0; 
-}
-
-/* 4. Ensure the text sits ON TOP of the animation */
-.text-block {
-  position: relative; /* NEW: Required for z-index to work */
-  z-index: 1;         /* NEW: Puts text above the z-index: 0 animation */
-}
-
-/* Note: You had a .content-wrapper class defined but not used in your HTML. 
-   I applied the necessary logic to .text-block above instead. */
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow-y: auto; /* Changed to auto so you can scroll if text gets long */
-  background-color: #000;
-}
-</style>
-
-<div class="sticky-container">
-<iframe src="collatz_visual.html" width="100%" height="100%" style="border:none;"></iframe>
-</div>
-
-<div class="text-block">
-I have a noisy brain. I'm also forgetful. In an attempt to organize that noise, and to help me remember things, I've started this website to share things that I find interesting. 
-
-Most writings will have a data science flavor, though I make no promises. This website is powered by coffee, so if you find any of this helpful and would like to support my work, consider <a href="https://buymeacoffee.com/echinos">buying me a coffee</a>.
-</div>

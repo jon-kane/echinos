@@ -17,9 +17,9 @@ website:
     logo-href: "https://buymeacoffee.com/echinos"
     left:
       - href: index.qmd
-        text: home
-      - href: writings.qmd
         text: writings
+      - href: about.qmd
+        text: about
 
 format:
   html:
